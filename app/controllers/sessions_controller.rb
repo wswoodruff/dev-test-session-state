@@ -1,9 +1,14 @@
 class SessionsController < AuthenticationsController
+
   def new
+      @session = Session.new
   end
 
   def create
     if login(params[:email], params[:password])
+
+      @session = Session.create(:ip_address => request.remote_ip, :user => current_user)
+
       flash[:success] = 'Welcome back!'
       redirect_to root_path
     else
